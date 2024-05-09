@@ -13,7 +13,14 @@ interface InvestifyDao {
        companyListingEntities : List<CompanyListingEntity>
     )
 
-    @Query("Delete from companylistingentity")
+    @Query("Delete from CompanyListingEntity")
     suspend fun clearCompanyListing()
+
+    @Query("""
+        select * from CompanyListingEntity
+        where lower(name) like '%' || lower(:query) || '%' or
+        upper(:query) == symbol
+    """)
+    suspend fun searchCompanyListing(query: String):List<CompanyListingEntity>
 
 }
