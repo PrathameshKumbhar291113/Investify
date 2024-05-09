@@ -9,18 +9,18 @@ import com.prathameshkumbhar.investify.data.local.entity.CompanyListingEntity
 @Dao
 interface InvestifyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCompanyListing (
-       companyListingEntities : List<CompanyListingEntity>
-    )
+    suspend fun insertCompanyListing(companyListingEntities: List<CompanyListingEntity>)
 
-    @Query("Delete from CompanyListingEntity")
+    @Query("DELETE FROM companylistingentity")
     suspend fun clearCompanyListing()
 
-    @Query("""
-        select * from CompanyListingEntity
-        where lower(name) like '%' || lower(:query) || '%' or
-        upper(:query) == symbol
-    """)
-    suspend fun searchCompanyListing(query: String):List<CompanyListingEntity>
-
+    @Query(
+        """
+            SELECT * 
+            FROM companylistingentity
+            WHERE LOWER(name) LIKE '%' || LOWER(:query) || '%' OR
+                UPPER(:query) == symbol
+        """
+    )
+    suspend fun searchCompanyListing(query: String): List<CompanyListingEntity>
 }
